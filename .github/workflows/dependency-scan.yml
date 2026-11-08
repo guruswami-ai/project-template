@@ -1,0 +1,20 @@
+name: Dependency scan
+
+# Fails a pull request that introduces a dependency with a known vulnerability (OSV database).
+# SARIF upload is off so this also works on private repos without paid code scanning.
+
+on:
+  pull_request:
+  merge_group:
+
+permissions:
+  contents: read
+  actions: read
+  security-events: write
+
+jobs:
+  osv-scan:
+    uses: google/osv-scanner-action/.github/workflows/osv-scanner-reusable-pr.yml@b1d267aea5211fa648d9d442fa64b90dbdcbdd36 # v2.7.0
+    with:
+      upload-sarif: false
+      fail-on-vuln: true
